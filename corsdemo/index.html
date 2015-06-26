@@ -1,0 +1,46 @@
+<html>
+
+<head>
+  <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+  $(document).ready(function() {
+    // GET 跨域请求
+    $("#get-btn").click(function() {
+      $.get('http://127.0.0.1:7777');
+    });
+
+    // POST 跨域请求
+    $("#post-btn").click(function() {
+      $.ajax({
+        type: "POST",
+        url: "http://123.57.3.86:7777",
+        //url: "http://127.0.0.1:7777",
+        dataType: 'application/x-www-form-urlencoded',
+        xhrFields: {
+          withCredentials: true
+        },
+        crossDomain: true,
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader("Cookie", "pageAccess=2");
+          xhr.setRequestHeader("Access-Control-Request-Headers", "Cookie");
+        },
+        success: function(data, status, xhr) {
+          console.log(xhr.getAllResponseHeaders());
+          alert('success');
+        },
+        error: function(xhr) {
+          console.log(xhr.getResponseHeader('Cookie'));
+          alert('error');
+        }
+      });
+    });
+  });
+  </script>
+</head>
+
+<body>
+  <button id="get-btn">GET-Request</button>
+  <button id="post-btn">POST-Request</button>
+</body>
+
+</html>
